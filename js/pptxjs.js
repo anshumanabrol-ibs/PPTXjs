@@ -362,13 +362,18 @@
                 if (filename_no_path_no_ext != "" && filename_no_path.indexOf("slide") != -1) {
                     slide_number = Number(filename_no_path_no_ext.substr(5));
                 }
-                var slideHtml = processSingleSlide(zip, filename, i, slideSize);
-                post_ary.push({
-                    "type": "slide",
-                    "data": slideHtml,
-                    "slide_num": slide_number,
-                    "file_name": filename_no_path_no_ext
-                });
+                try {
+                    var slideHtml = processSingleSlide(zip, filename, i, slideSize);
+                    post_ary.push({
+                        "type": "slide",
+                        "data": slideHtml,
+                        "slide_num": slide_number,
+                        "file_name": filename_no_path_no_ext
+                    });
+                }
+                catch (error) {
+                    console.error("Error processing slide: ", filename,error);
+                }
                 post_ary.push({
                     "type": "progress-update",
                     "slide_num": (numOfSlides + i + 1),
